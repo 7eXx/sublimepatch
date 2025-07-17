@@ -15,6 +15,7 @@ void patch_sublime4200 ();
 void patch_sublime4143 ();
 void patch_sublimeDEV ();
 void patch_merge2079 ();
+void patch_merge2074 ();
 
 
 int main ()
@@ -33,7 +34,8 @@ int main ()
     printf("\t2. Sublime Text Stable 4143\n");
 	printf("\t3. Sublime Text DEV 4147\n");
 	printf("\t4. Sublime Merge Stable 2079\n");
-	printf("\nEnter the number (1 - 2 - 3 - 4) : ");
+    printf("\t5. Sublime Merge Stable 2074\n");
+	printf("\nEnter the number: ");
 	scanf ("%i", &option);
 
 	switch( option )
@@ -52,6 +54,10 @@ int main ()
             
         case 4:
             patch_merge2079();
+            break;
+
+        case 5:
+            patch_merge2074();
             break;
 
         default:
@@ -78,7 +84,7 @@ void patch_sublime4200()
     system("perl -pi -e 's/\\x0F\\xB6\\x51\\x05\\x83\\xF2\\x01/\\xC6\\x41\\x05\\x01\\xB2\\x00\\x90/' sublime_text");
     system("mv sublime_text /opt/sublime_text/sublime_text ");
 
-    msg_final_output("Sublime Text");
+    msg_final_output("Sublime Text 4200");
 }
 
 
@@ -108,7 +114,7 @@ void patch_sublime4143 ()
     
     system("mv sublime_text /opt/sublime_text/sublime_text ");
     
-    msg_final_output("Sublime Text");
+    msg_final_output("Sublime Text 4143");
 }
 
 
@@ -138,7 +144,7 @@ void patch_sublimeDEV ()
     
     system("mv sublime_text /opt/sublime_text/sublime_text ");
     
-    msg_final_output("Sublime Text");
+    msg_final_output("Sublime Text DEV 4147");
 }
 
 
@@ -175,7 +181,41 @@ void patch_merge2079 ()
     
     system("mv sublime_merge /opt/sublime_merge/sublime_merge ");
     
-    msg_final_output("Sublime Merge");
+    msg_final_output("Sublime Merge 2079");
+}
+
+void patch_merge2074 () 
+{
+    system("cp /opt/sublime_merge/sublime_merge '.' ");
+
+    char b1[] = "\x48\xC7\xC0\x19\x01\x00\x00\xC3";
+    char b2[] = "\x90\x90\x90\x90\x90";
+    char b3[] = "\x48\x31\xC0\x48\xFF\xC0\xC3";
+    char b4[] = "\xC3";
+
+    FILE *crack = fopen( "sublime_merge", "r+b" );
+    fseek( crack, 0x003C8EBE, SEEK_SET ); // Se mueve a la dirección o numero espacios desde el comienzo del archivo
+    fwrite(b1, sizeof(b1[0]), 8, crack);
+
+    fseek( crack, 0x003CBFBB, SEEK_SET ); 
+    fwrite(b2, sizeof(b2[0]), 5, crack);
+
+    fseek( crack, 0x003CBFD6, SEEK_SET ); 
+    fwrite(b2, sizeof(b2[0]), 5, crack);
+
+    fseek( crack, 0x003CA46E, SEEK_SET ); 
+    fwrite(b3, sizeof(b3[0]), 7, crack);
+
+    fseek( crack, 0x003C8C0A, SEEK_SET ); 
+    fwrite(b4, sizeof(b4[0]), 1, crack);
+
+    fseek( crack, 0x003C883E, SEEK_SET ); 
+    fwrite(b4, sizeof(b4[0]), 1, crack);
+    fclose( crack );
+    
+    system("mv sublime_merge /opt/sublime_merge/sublime_merge ");
+    
+    msg_final_output("Sublime Merge 2074");
 }
 
 
