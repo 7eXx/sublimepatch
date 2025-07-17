@@ -3,9 +3,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 void msg_welcome ();
-void pause();
+void wait_enter();
 void clear();
 void msg_menu ();
 void msg_end ();
@@ -20,7 +21,7 @@ int main ()
 {
 	clear();
 	msg_welcome ();
-	pause();
+	wait_enter();
 	clear();
 	msg_menu ();
 	
@@ -61,7 +62,7 @@ int main ()
     return 0;
 }
 
-void pause()
+void wait_enter()
 {
     system("echo 'Press enter to continue...' &&  read line");
 }
@@ -183,20 +184,20 @@ void msg_final_output(const char* program) {
     msg_menu ();
     printf("\n");
     printf("\t%s for Linux x64 platform, loading...\n", program);
-    system("sleep 2");
+    sleep(2);
 
     clear();
     msg_menu ();
     printf("\n");
     printf("\tPaying $99 USD For A License Is Stupid.\n");
-    system("sleep 5");
+    sleep(2);
 
     clear();
     msg_menu ();
     printf("\n");
     printf("\tEnter any key to program, program made by Codigo Cristo\n"); 
     msg_end () ;
-    pause();
+    wait_enter();
     clear();
 }
 
