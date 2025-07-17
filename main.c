@@ -6,9 +6,11 @@
 
 void msg_welcome ();
 void pause();
-void clean();
+void clear();
 void msg_menu ();
 void msg_end ();
+void msg_final_output (const char* program);
+void patch_sublime4200 ();
 void patch_sublime4143 ();
 void patch_sublimeDEV ();
 void patch_merge2079 ();
@@ -16,62 +18,67 @@ void patch_merge2079 ();
 
 int main ()
 {
-	clean();
+	clear();
 	msg_welcome ();
 	pause();
-	clean();
+	clear();
 	msg_menu ();
 	
 	int option = 0 ;
 	int optionsublime = 0 ;
 	int optionmerge = 0 ;
 
-	printf("\t1. Sublime Text Stable 4143\n");
-	printf("\t2. Sublime Text DEV 4147\n");
-	printf("\t3. Sublime Merge Stable 2079\n");
-	printf("\nEnter the number (1 - 2 - 3) : ");
+	printf("\t1. Sublime Text Stable 4200\n");
+    printf("\t2. Sublime Text Stable 4143\n");
+	printf("\t3. Sublime Text DEV 4147\n");
+	printf("\t4. Sublime Merge Stable 2079\n");
+	printf("\nEnter the number (1 - 2 - 3 - 4) : ");
 	scanf ("%i", &option);
 
 	switch( option )
     {
         case 1:
-            patch_sublime4143 ();
+            patch_sublime4200();
+            break;
+        
+        case 2:
+            patch_sublime4143();
             break;
 
-        case 2:
-	    patch_sublimeDEV ();
+        case 3:
+            patch_sublimeDEV();
             break;
             
-        case 3:
-	    patch_merge2079 ();
+        case 4:
+            patch_merge2079();
             break;
 
         default:
-        	clean();
-            printf("\nError! operator is not correct %c", 174);
+        	clear();
+            printf("\nError! Option is not correct %c", 174);
     }
 
     return 0;
 }
 
-
-
-
-
-
 void pause()
 {
     system("echo 'Press enter to continue...' &&  read line");
-    return;
 }
 
-void clean()
+void clear()
 {
     system("clear");
-    return;
 }
 
+void patch_sublime4200() 
+{
+    system("cp /opt/sublime_text/sublime_text '.' ");
+    system("perl -pi -e 's/\\x0F\\xB6\\x51\\x05\\x83\\xF2\\x01/\\xC6\\x41\\x05\\x01\\xB2\\x00\\x90/' sublime_text");
+    system("mv sublime_text /opt/sublime_text/sublime_text ");
 
+    msg_final_output("Sublime Text");
+}
 
 
 void patch_sublime4143 () 
@@ -100,25 +107,7 @@ void patch_sublime4143 ()
     
     system("mv sublime_text /opt/sublime_text/sublime_text ");
     
-    system("clear");
-    msg_menu ();
-    printf("\n");
-    printf("\tSublime Text for Linux x64 platform, loading...\n");
-    system("echo '\nPress enter to continue...' &&  read line");
-
-    system("clear");
-    msg_menu ();
-    printf("\n");
-    printf("\tPaying $99 USD For A License Is Stupid.\n");
-    system("echo '\nPress enter to continue...' &&  read line");
-
-    system("clear");
-    msg_menu ();
-    printf("\n");
-    printf("\tEnter any key to program, program made by Codigo Cristo\n"); 
-    msg_end () ;
-    system("echo '\nPress enter to continue...' &&  read line");
-    system("clear; exit");
+    msg_final_output("Sublime Text");
 }
 
 
@@ -148,25 +137,7 @@ void patch_sublimeDEV ()
     
     system("mv sublime_text /opt/sublime_text/sublime_text ");
     
-    system("clear");
-    msg_menu ();
-    printf("\n");
-    printf("\tSublime Text for Linux x64 platform, loading...\n");
-    system("echo '\nPress enter to continue...' &&  read line");
-
-    system("clear");
-    msg_menu ();
-    printf("\n");
-    printf("\tPaying $99 USD For A License Is Stupid.\n");
-    system("echo '\nPress enter to continue...' &&  read line");
-
-    system("clear");
-    msg_menu ();
-    printf("\n");
-    printf("\tEnter any key to program, program made by Codigo Cristo\n"); 
-    msg_end () ;
-    system("echo '\nPress enter to continue...' &&  read line");
-    system("clear; exit");
+    msg_final_output("Sublime Text");
 }
 
 
@@ -203,25 +174,30 @@ void patch_merge2079 ()
     
     system("mv sublime_merge /opt/sublime_merge/sublime_merge ");
     
-    system("clear");
+    msg_final_output("Sublime Merge");
+}
+
+
+void msg_final_output(const char* program) {
+    clear();
     msg_menu ();
     printf("\n");
-    printf("\tSublime Merge for Linux x64 platform, loading...\n");
-    system("sleep 5");
+    printf("\t%s for Linux x64 platform, loading...\n", program);
+    system("sleep 2");
 
-    system("clear");
+    clear();
     msg_menu ();
     printf("\n");
     printf("\tPaying $99 USD For A License Is Stupid.\n");
     system("sleep 5");
 
-    system("clear");
+    clear();
     msg_menu ();
     printf("\n");
     printf("\tEnter any key to program, program made by Codigo Cristo\n"); 
     msg_end () ;
-    system("echo 'Press enter to continue...' &&  read line");
-    system("exit");
+    pause();
+    clear();
 }
 
 

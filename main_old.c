@@ -45,9 +45,12 @@ int main ()
                 printf("\n");
                 patch_sublime4134 ();
             }
-            else {
+            else if (optionsublime == 2) {
                 printf("\n");
                 patch_sublime4126 ();
+            } else {
+                printf("\n");
+                printf("Selection is not valid!");
             }
             
             break;
@@ -68,9 +71,12 @@ int main ()
                 printf("\n");
                 patch_merge2073 ();
             }
-            else {
+            else if (optionmerge == 3) {
                 printf("\n");
                 patch_merge2068 ();
+            } else {
+                printf("\n");
+                printf("Selection is not valid!");
             }
 
             break;
@@ -82,16 +88,6 @@ int main ()
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
 
 #ifdef _WIN64
 void pause()
